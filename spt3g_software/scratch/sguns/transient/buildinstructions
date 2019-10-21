@@ -1,0 +1,18 @@
+To build on your machine, you will likely need to change the paths below. This requires GSL.
+
+cc -O3 -I/usr/local/include -I /usr/local/lib/python2.7/site-packages/numpy/core/include/ -I /usr/local/include/python2.7/ -L /usr/local/lib -lgsl -lgslcblas lcfit.c -lm -fPIC -shared -o fitlc.so
+
+On cloud or OSG:
+
+cc -fPIC -shared -O3 -I /cvmfs/spt.opensciencegrid.org/py2-v1/RHEL_6_x86_64/i3ports/include/gsl-1.16 -I //cvmfs/spt.opensciencegrid.org/py2-v1/RHEL_6_x86_64/include/python2.7/ lcfit.c -L $SROOT/lib -I /cvmfs/spt.opensciencegrid.org/py2-v1/RHEL_6_x86_64/lib/python2.7/site-packages/numpy/core/include/ -l gsl -l gslcblas  -o fitlc.so
+
+Sam Guns 11-Dec-2018: the following worked for me on scott
+cc -fPIC -shared -O3 -I /cvmfs/spt.opensciencegrid.org/py2-v1/RHEL_6_x86_64/include/ -I /cvmfs/spt.opensciencegrid.org/py2-v1/RHEL_6_x86_64/include/python2.7/ tmplfilter.c -L $SROOT/lib -I /cvmfs/spt.opensciencegrid.org/py2-v1/RHEL_6_x86_64/lib/python2.7/site-packages/numpy/core/include/ -l gsl -l gslcblas  -o tmplfilter.so 
+
+
+Sam Guns 19-Apr-2019: py3-v3 version
+cc -fPIC -shared -O3 -I /cvmfs/spt.opensciencegrid.org/py3-v3/RHEL_7_x86_64/include/ -I /cvmfs/spt.opensciencegrid.org/py3-v3/RHEL_7_x86_64/include/python3.7/ tmplfilter.c -L $SROOT/lib -I /cvmfs/spt.opensciencegrid.org/py3-v3/RHEL_7_x86_64/lib/python3.7/site-packages/numpy/core/include/ -l gsl -l gslcblas  -o tmplfilter.so 
+
+cc -fPIC -shared -O3 -I /cvmfs/spt.opensciencegrid.org/py3-v3/RHEL_7_x86_64/include/ -I /cvmfs/spt.opensciencegrid.org/py3-v3/RHEL_7_x86_64/include/python3.7/ fitlc.c -L $SROOT/lib -I /cvmfs/spt.opensciencegrid.org/py3-v3/RHEL_7_x86_64/lib/python3.7/site-packages/numpy/core/include/ -l gsl -l gslcblas  -o fitlc.so 
+
+cc -fPIC -shared -O3 -I /cvmfs/spt.opensciencegrid.org/py3-v3/RHEL_7_x86_64/include/ -I /cvmfs/spt.opensciencegrid.org/py3-v3/RHEL_7_x86_64/include/python3.7/ fitlcmb.c -L $SROOT/lib -I /cvmfs/spt.opensciencegrid.org/py3-v3/RHEL_7_x86_64/lib/python3.7/site-packages/numpy/core/include/ -l gsl -l gslcblas  -o fitlcmb.so 

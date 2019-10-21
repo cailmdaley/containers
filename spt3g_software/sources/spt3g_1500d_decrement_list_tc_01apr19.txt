@@ -1,0 +1,28 @@
+# README: 
+# 
+# This list is the "SZ decrement" version of the list 
+# spt3g_1500d_source_list_tc_05mar19.txt and was generated
+# in the same way, except that the maps were multiplied by 
+# -1 before source finding, and detections were only visually
+# vetted south of decl. = -65; otherwise detections were first
+# cross-matched within 4' to Bleem et al. (2015) clusters and
+# then visually inspected. See the header of
+# spt3g_1500d_source_list_tc_05mar19.txt for more details of
+# source finding.
+# 
+# RA [deg]  dec [deg]  SN90  S90 [mJy]  SN150  S150 [mJy]  SN220  S220 [mJy]  cluster_name
+   4.856   -68.052    10.314    11.790       NaN       NaN       NaN       NaN  
+  10.204   -44.143    15.293    17.482    15.848    19.664       NaN       NaN  SPT-CL J0040-4407 
+  15.722   -49.267    34.464    39.397    30.369    37.682       NaN       NaN  SPT-CL J0102-4915 
+  34.599   -66.900    13.000    14.861    13.297    16.499       NaN       NaN  
+  38.068   -44.359    17.578    20.094    14.643    18.169       NaN       NaN  SPT-CL J0232-4421 
+  38.683   -58.526    10.288    11.761    12.286    15.244       NaN       NaN  SPT-CL J0234-5831 
+  40.161   -59.770    10.565    12.077       NaN       NaN       NaN       NaN  SPT-CL J0240-5946 
+  40.906   -48.565    11.827    13.520       NaN       NaN       NaN       NaN  SPT-CL J0243-4833 
+  43.579   -58.956    11.578    13.236       NaN       NaN       NaN       NaN  SPT-CL J0254-5857 
+  46.062   -44.036    12.168    13.910    11.083    13.752       NaN       NaN  SPT-CL J0304-4401 
+ 316.521   -58.746    20.546    23.487    17.840    22.136       NaN       NaN  SPT-CL J2106-5844 
+ 342.185   -44.536    32.476    37.125    29.035    36.027       NaN       NaN  SPT-CL J2248-4431 
+ 344.755   -60.961    10.436    11.930       NaN       NaN       NaN       NaN  SPT-CL J2259-6057 
+ 354.355   -59.710    16.207    18.527    16.706    20.729       NaN       NaN  SPT-CL J2337-5942 
+ 356.181   -42.730    23.935    27.361    22.073    27.388       NaN       NaN  SPT-CL J2344-4243 

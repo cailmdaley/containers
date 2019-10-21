@@ -1,0 +1,28 @@
+##### Pointing 01/30/19
+# Pointing model spt_summer2019_initial parameters:
+# Az tilts updated with linear extrapolation for 30Jan19
+# tilts 0.00707173, -0.00946672, -0.03350191045321079
+# flexure radio, 0.031666200745414166, 0.019452119203248543
+# collimate_fixed radio, 0.043486527, -0.12502430555
+#
+##### (translated from collimate_fixed radio, 0:02:36.5515, -0:07:30.0875)
+#
+#
+# Fitting 40 points:
+# Az residuals rms (arcsec): 13.387571103619909
+# El residuals rms (arcsec): 4.910477356235978
+# keep high-el az err v ell points
+# benchFocus 20
+# Source      AZ           EL          sky_x       sky_y
+jupiter    225:01:50   22:01:00   -00:00:08.1  -00:02:54.7
+saturn     249:00:00   21:55:00   -00:00:03.4  -00:03:03.0
+pi1gru     296:16:00   45:20:00    00:00:10.1  -00:03:18.6
+rscl       337:11:12   32:16:16    00:00:10.1  -00:03:00.0   ##??
+rdor        22:02:28   61:51:37    00:00:23.2  -00:03:24.7
+apex07454   64:33:29   71:11:00    00:00:23.2  -00:03:24.7   ## weak but there
+#rafgl5254  84:14:00   24:46:40
+vhya       106:16:25   21:10:22   -00:00:01.1  -00:03:00.0
+#m1-16      53:47:24   09:34:50
+#iras15194 144:58:30   51:16:55
+jupiter    164:38:00   22:02:00   -00:00:21.4  -00:02:41.2
+saturn     192:01:30   21:59:00   -00:00:17.8  -00:02:44.7

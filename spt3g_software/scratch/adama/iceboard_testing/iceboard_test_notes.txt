@@ -1,0 +1,64 @@
+Some miscellaneous notes on the IceBoard hardware and software configuration for testing
+
+spt3g machine configuration
+--I installed Ubuntu 14.04 and a ton of packages in order to run pydfmux and spt3g_software. For better or worse, I didn't keep track of them all.
+
+--The spt3g machine is a former IceCube computer with 12 cores, 24MB RAM, a 120GB 1000RPM disk, and 4 RAIDed 2TB disks.
+
+
+Networking for spt3g machine:
+--Added spt3g machine with IP address 192.168.1.130 and domain name 'spt3g'. I did this editing the version of db192.admin and dhcpd.conf.admin managed by the configuration server. For some reason the domain name is still not recognized on some of the sptviewer* computers, but spt3g machine is still obviously accessible by the IP address. 
+
+--Installed openssh-server on spt3g. We can now ssh to spt3g from computers on the spt network. The ssh daemon appears to start by default after a reboot.
+
+
+Networking for IceBoard
+--In the testing configuration, there are three ethernet cables coming out of the back of the IceBoard, which are all routed to an ethernet switch. Two ethernet cables then go from the switch to ethernet ports 1 (eth8) and 2 (eth6) on the computer, which handle the demodulated data and the rawdump, respectively. 
+
+--We need to be running dhcp in order for the IceBoard to fully book and be visible on the network. The contents of /etc/dhcp/dhcpd.conf are:
+
+ddns-update-style none;
+default-lease-time 600;
+max-lease-time 7200;
+authoritative;
+log-facility local7;
+
+shared-network 200-210 {
+  subnet 192.168.5.0 netmask 255.255.255.0 {
+    option routers 192.168.5.208;
+  }
+  pool {
+    range 192.168.5.200 192.168.5.210;
+    allow unknown-clients;
+    host spt3g {
+      fixed-address 192.168.5.200;
+      hardware ethernet 84:2b:2b:02:0a:8b;
+    }
+
+    host iceboard0112 {
+      fixed-address 192.168.5.201;
+      hardware ethernet 84:7e:40:6d:37:e8;
+    }
+  }
+}
+
+To make a long story short, we have told DHCP to manage to the IP range 192.168.5.200 to 210. Address *.200 is reserved ethernet interface 'eth8' on the spt3g computer (labeled port 1 on the back of the case), while *.201 is reserved for the iceboard, both identified by their respective MAC addresses.
+
+--Since DHCP is running on eth8, this interface needs to be started:
+sudo ifup eth8
+The rawdump code is handled through eth6, so we should start this too:
+sudo ifup eth6
+
+--To start DHCP run:
+sudo /etc/init.d/isc-dhcp-server start
+Note that I haven't set this to start up at boot, so this needs to be done after a restart.
+
+
+IceBoard configuration notes:
+--Once one has the hang of the awkward syntax of pydfmux query objects, configuring the IceBoard is relatively straightforward and self-explanatory based on docstrings.
+
+
+RAID settings on spt3g:
+--spt3g has 4x 1.8TB drives which were intended to be configured in a RAID-5 block. Two of the drives were listed as "foreign" by the RAID controller, which prevented Linux from being able to mount them. During boot, one has the option of entering <ctrl>-r to enter the RAID controller setup. From here, I deleted the "foreign" setting, and the RAID-5 configuration, building a new RAID-5 array from the 4 drives. Within Linux, I was then able to format the disk as a single ext4 partition which should mount on boot at /data.
+
+

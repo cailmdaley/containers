@@ -1,0 +1,14 @@
+Make_Single_Bolo_Coadds.py:34: UserWarning: loadtxt: Empty input file: "/spt/user/axf295/Condor_Return/CenA/Offline_Pointing/both_fit/All/Analyzed_Obs.txt"
+  analyzed_obs = np.loadtxt(analyzed_obs_file)
+/home/axf295/2019/code/spt3g_software/scratch/axf295/polcal/python/CenA_Map_Utils.py:355: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+  if Noise_Mask == '':
+Make_Single_Bolo_Coadds.py:191: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+  if obs not in analyzed_obs:
+/home/axf295/2019/code/spt3g_software/build/spt3g/core/skymapaddons.py:25: RuntimeWarning: invalid value encountered in true_divide
+  return numpyinplace(a, numpy.ndarray.__dict__[op](numpy.asarray(a), numpy.asarray(b)))
+Make_Single_Bolo_Coadds.py:183: RuntimeWarning: invalid value encountered in true_divide
+  single_bolo_coadd_maps[b].maps['T'] += np.copy(bolo_map.maps['T']/mapvar)
+Make_Single_Bolo_Coadds.py:184: RuntimeWarning: divide by zero encountered in double_scalars
+  single_bolo_coadd_maps[b].noise  += np.copy(1./mapvar)
+Make_Single_Bolo_Coadds.py:217: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+  if obs not in analyzed_obs:

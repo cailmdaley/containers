@@ -1,0 +1,15 @@
+#!/bin/bash
+#SBATCH -t 02:00:00
+#SBATCH -o /project2/chihway/yuuki/sptsz2500d_v7//lensed_TQU2phi1/logs/outputfile_lenspix_tqu2phi1_150
+#SBATCH -e /project2/chihway/yuuki/sptsz2500d_v7//lensed_TQU2phi1/logs/errorfile_lenspix_tqu2phi1_150
+#SBATCH --partition=broadwl
+#SBATCH --account=pi-chihway
+#SBATCH --exclusive
+#SBATCH --nodes=4
+#SBATCH --job-name=lenspix150
+export OMP_PROC_BIND=spread
+export OMP_PLACES=threads
+export I_MPI_PMI_LIBRARY=/software/slurm-current-el7-x86_64/lib/libpmi.so
+cd /project2/chihway/yuuki/repo/sptsz_mapmaking
+source /project2/chihway/setup/setup_intel.sh
+srun -n48 /project2/chihway/packages/lenspix/simlens /project2/chihway/yuuki/sptsz2500d_v7//configs/lenspix150.ini

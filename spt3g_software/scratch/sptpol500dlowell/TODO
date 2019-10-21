@@ -1,0 +1,9 @@
+- Pinstriping in maps: is this just a dither step artifact and harmless? S/N maps are clean, but S maps have different striping than with sptpol map maker
+# Compare uncleaned map noise to SPTpol maps
+- Can you remove skyarcs by dynamic deweighting (to zero?) of samples on detectors when Q gets too large compared to I? NB: mapmaker does not support sample-by-sample weights, so would need either mapmaker modifications or to cut the whole scan for that detector, which might remove too much data
+# Map power spectra and transfer functions
+# Make sure mode removal is not mixing in bad detectors
+
+Ideas/things to check:
+- If there is significant low-ell signal power reduction from an (effective) common-mode filter, we can forcibly orthoganalize the contaminant basis from the signal by explicitly common-mode filtering the training set and adding an identity mode in application
+- The atmospheric gain-matching/removal could have a complex effect on CMB signal insofar as the gain changes are spectral features and the CMB spectrum may not match the calibration sources either. There is a limit, for instance, in which the atmosphere and CMB have the same focal plane pattern that is different from cal sources and CMB is removed perfectly by the filtering. This is very hard to protect against in T. For polarization, complete removal is off the table, but getting the transfer function right in P could be extremely complicated (and subject to unknown unknowns) so long as we pursue this.

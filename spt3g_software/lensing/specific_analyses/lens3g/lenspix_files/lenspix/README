@@ -1,0 +1,10 @@
+This is where lenspix should be clone to.
+
+The SimLens.f90 provided here is a modified version of the original SimLens.f90.
+The difference is that you feed in a specific phi map, whereas the original code generates a realization on the fly. It requires a full TQU and phi maps as inputs. If you are only interested in the T map, you will still need to set the Q/U parts to zero.
+
+Additionally there are flags to remove E/B modes:
+set_B_zero = F
+set_E_zero = F
+but these options are more for delensing purposes (and not for standard lensing analyses).
+

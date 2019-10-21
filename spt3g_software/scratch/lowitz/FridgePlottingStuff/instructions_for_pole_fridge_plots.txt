@@ -1,0 +1,18 @@
+
+Fridge plot instructions:
+
+When the fridge cycle is finished:
+
+1)look up the cycle start and end times in the schedule log table
+
+2) open spt3g_software/scratch/lowitz/FridgePlottingStuff/poleFridgePlots.py (you probably want to do this in a copy of the repo on your personal account or the sptviewer account, or just make your own 'throwaway' copy of this script somewhere in your user account)
+
+3) near the top of the script, edit cycle_start and cycle_stop to reflect the start and stop times for the cycle you want to look at.  Save the file (don't commit these changes, unless you make your own copy elsewhere)
+
+4) open a terminal (probably as your own username, anywhere on sptnet).  cd to whatever directory you want the figures to be saved to
+
+5) run the following:
+
+python /path/to/script/poleFridgePlots.py
+
+6) This will think for several minutes and then finish with no output to the terminal (unless there are errors).  When it finishes, it will have saved two files in the directory where you ran the script from.  They are named as follows: <timestamp>.png and <timestamp>_lowT.png.  I usually rename them to the cycle number they correspond to instead of the timestamps.  

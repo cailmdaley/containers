@@ -1,0 +1,18 @@
+#Written by pole_map_weight_distributions_for_cuts_08jun19.py. 
+#Maps created using configuration file 
+#   /software/spt3g_software_onlinemaps/spt3g/std_processing/mapmakers/pole_autoproc_config.yaml,
+# with code at git hash ed461fbecdab3740b6e8249866e08cdd03c76094.
+#
+# Field    Band [GHz]  Median(Weight*RMS^2)  RobustSigma(Weight*RMS^2) 
+ra0hdec-44.75    90     8.09731      0.05002
+ra0hdec-44.75   150     7.62108      0.33735
+ra0hdec-44.75   220     8.71550      0.46395
+ra0hdec-52.25    90     8.14172      0.07270
+ra0hdec-52.25   150     7.86298      0.29625
+ra0hdec-52.25   220     8.30280      0.24825
+ra0hdec-59.75    90     8.16950      0.06583
+ra0hdec-59.75   150     8.26131      0.16242
+ra0hdec-59.75   220     8.75865      0.16667
+ra0hdec-67.25    90     8.16417      0.04573
+ra0hdec-67.25   150     8.32974      0.12604
+ra0hdec-67.25   220     8.49884      0.09451

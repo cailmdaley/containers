@@ -1,0 +1,24 @@
+# dongle.yaml
+#
+# This hardware map is for a dongle with resistive and LC channels. The channel
+# frequencies are set approximately uniformly between 1MHz and 7MHz, each with
+# a uniform random shift equal to 25% of the uniform frequency spacing. This is
+# to avoid channel interference at integer multiples of bias frequencies.
+#
+# Adam Anderson
+# 7 December 2015
+# adama@fnal.gov
+
+default_bias_properties: !DefaultBiasProperties "dongle_bias_default.json"
+
+hardware_map: !HardwareMap
+            - !Dfmux
+                serial: "0112"
+                mezzanines:
+                    1: !MGMEZZ04
+                        serial: "137"
+                    2: !MGMEZZ04
+                        serial: "138"
+
+            - !ChannelMappings "dongle_bolos.csv"
+            - !JSONBiasProperties "dongle_bias.json"

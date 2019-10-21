@@ -1,0 +1,27 @@
+executable = convert-sptpol.sh
+universe = vanilla
+
+error = /scratch/nwhitehorn/sptpol_logs/$(ObsStart)-err.log
+output = /scratch/nwhitehorn/sptpol_logs/$(ObsStart)-out.log
+log = /scratch/nwhitehorn/sptpol_logs/condor.log
+
++WANT_RCC_ciconnect = True
++ProjectName = "spt.all"
+request_cpus = 1
+Requirements = ((OSGVO_OS_STRING == "RHEL 6") || (OSGVO_OS_STRING == "RHEL 7")) && (HAS_CVMFS_spt_opensciencegrid_org)
+request_disk = 20000000
+request_memory = 2048
+
+transfer_output_files = ""
+should_transfer_files = YES
+run_as_owner = False
+when_to_transfer_output = ON_EXIT
+transfer_input_files = convert-sptpol.py
+#,/home/nwhitehorn/sptpol100d-wiring.g3
+use_x509userproxy = True
+transfer_executable = True
+
+arguments = "$(ObsStart) $(ObsStop) /spt/user/nwhitehorn/sptpol/converted/ '$(InputFiles)'"
+
+queue
+

@@ -1,0 +1,15 @@
+executable = bispec_job_script.sh
+universe = vanilla
+notification = never
+log = job9.log
+output = job9.out
+error = job9.err
+
+request_cpus=4
+
+
++ProjectName="SouthPoleTelescope"
++TransferOutput=""
+Requirements = ( Arch == "X86_64" ) && ( TARGET.OpSys == "LINUX" ) && (HAS_CVMFS_oasis_opensciencegrid_org =?= True)
+
+queue
