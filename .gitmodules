@@ -1,0 +1,3 @@
+[submodule "spt3g_software"]
+	path = spt3g_software
+	url = git@github.com:SouthPoleTelescope/spt3g_software.git
