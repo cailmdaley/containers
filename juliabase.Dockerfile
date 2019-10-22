@@ -25,7 +25,7 @@ ENV USER imageuser
 ENV HOME /home/$USER
 RUN adduser --disabled-password --gecos "Default user" $USER \
     && mkdir $HOME/src \
-    && chown -R $USER $HOME # && chmod 4755 -R $HOME
+    && chown -R $USER $HOME # && chmod 4777 -R $HOME
 
 
 USER $USER
