@@ -9,16 +9,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libnetcdf-dev \
         python-openssl \
     && rm -rf /var/lib/apt/lists/*
+USER $USER
 
-RUN mkdir $HOME/src
-COPY --chown=$USER spt3g_software $HOME/src/spt3g_software
+COPY --chown=1000 spt3g_software $HOME/src/spt3g_software
 RUN cd $HOME/src/spt3g_software \
     && mkdir build \
     && cd build \
     && cmake -DPYTHON_LIBRARY=~/.pyenv/versions/3.7.3/lib/libpython3.7m.so .. \
-    && make -j 8
-
-USER $USER
+    && make -j 4
 
 ENV PORT 8000
 RUN mkdir -p /home/$USER/.jupyter \
