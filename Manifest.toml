@@ -8,9 +8,9 @@ version = "0.1.0"
 
 [[Atom]]
 deps = ["Base64", "CSTParser", "CodeTools", "CodeTracking", "DocSeeker", "HTTP", "Hiccup", "InteractiveUtils", "JSON", "JuliaFormatter", "JuliaInterpreter", "Juno", "LNR", "Lazy", "Logging", "MacroTools", "Markdown", "Media", "OrderedCollections", "Pkg", "Profile", "REPL", "Requires", "Sockets", "Traceur", "TreeViews", "WebIO", "WebSockets"]
-git-tree-sha1 = "d9655e8adca061830f562fdfc13dfd3734976d80"
+git-tree-sha1 = "f21660dff5034f9a99330fa22295d8ce03caeb23"
 uuid = "c52e3926-4ff0-5f6e-af25-54175e0327b1"
-version = "0.11.1"
+version = "0.11.2"
 
 [[Base64]]
 uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"

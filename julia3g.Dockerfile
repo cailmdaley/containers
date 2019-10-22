@@ -16,7 +16,7 @@ RUN cd $HOME/src/spt3g_software \
     && mkdir build \
     && cd build \
     && cmake -DPYTHON_LIBRARY=~/.pyenv/versions/3.7.3/lib/libpython3.7m.so .. \
-    && make -j 4
+    && make
 
 ENV PORT 8000
 RUN mkdir -p /home/$USER/.jupyter \
