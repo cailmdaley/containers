@@ -23,14 +23,13 @@ RUN mkdir /opt/julia \
 # setup an unprivileged user
 ENV USER cailmdaley
 ENV HOME /home/$USER
-RUN adduser --disabled-password --gecos "Default user" $USER \
-    && chown -R $USER $HOME && chmod 4755 -R $HOME
+RUN adduser --disabled-password --gecos "Default user" $USER
 
 # install Julia packages and create src directory
 ENV JULIA_PROJECT=$HOME
 COPY --chown=$USER Project.toml $HOME/
 RUN julia -e 'using Pkg; pkg"instantiate; precompile"' && mkdir $HOME/src
 
-
+RUN chown -R $USER $HOME && chmod 4755 -R $HOME
 USER $USER
 WORKDIR $HOME

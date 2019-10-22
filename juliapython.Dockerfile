@@ -35,7 +35,7 @@ RUN pip install --no-cache-dir \
     && jupyter labextension install @jupyterlab/toc \
     && rm -rf $HOME/.cache
 
-USER $USER
-
-# install Julia packages
+install Julia packages
 RUN julia -e 'using Pkg; pkg"add PyCall PyPlot; precompile"'
+
+USER $USER

@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir $HOME/src
-COPY --chown=1000 spt3g_software $HOME/src/spt3g_software
+COPY --chown=$USER spt3g_software $HOME/src/spt3g_software
 RUN cd $HOME/src/spt3g_software \
     && mkdir build \
     && cd build \
@@ -24,5 +24,5 @@ ENV PORT 8000
 RUN mkdir -p /home/$USER/.jupyter \
     && echo "c.NotebookApp.terminado_settings={'shell_command': ['bash']}" >> /home/$USER/.jupyter/jupyter_notebook_config.py
 
-ENTRYPOINT []
+ENTRYPOINT ["src/spt3g_software/build/env-shell.sh"]
 CMD jupyter lab --ip=0.0.0.0 --no-browser --port $PORT
