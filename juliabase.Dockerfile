@@ -21,13 +21,13 @@ RUN mkdir /opt/julia \
     && ln -s /opt/julia/bin/julia /usr/local/bin
 
 # setup an unprivileged user
-ENV USER cailmdaley
+ENV USER imageuser
 ENV HOME /home/$USER
 RUN adduser --disabled-password --gecos "Default user" $USER \
     && mkdir $HOME/src \
     && chown -R $USER $HOME # && chmod 4755 -R $HOME
 
-    
+
 USER $USER
 WORKDIR $HOME
 
