@@ -34,4 +34,4 @@ WORKDIR $HOME
 ENV JULIA_PROJECT=$HOME
 COPY --chown=1000 Project.toml $HOME/
 RUN julia -e 'using Pkg; pkg"instantiate; precompile"' \
-    && chmod -R 777 $HOME/.julia
+    && chmod -R 777 $HOME

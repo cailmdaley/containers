@@ -24,7 +24,7 @@ user $IMAGEUSER
 RUN curl https://pyenv.run | bash \
     && CFLAGS="-O2" PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.7.3 \
     && pyenv global 3.7.3 \
-    && chmod -R 777 $HOME/.pyenv
+    && chmod -R 777 $HOME
 
 # install Python packages
 RUN pip install --no-cache-dir \
@@ -39,4 +39,4 @@ RUN pip install --no-cache-dir \
 
 # install Julia packages
 RUN julia -e 'using Pkg; pkg"add PyCall PyPlot; precompile"' \
-    && chmod -R 777 $HOME/.julia
+    && chmod -R 777 $HOME

@@ -17,13 +17,13 @@ RUN cd $HOME/src/spt3g_software \
     && cd build \
     && cmake -DPYTHON_LIBRARY=~/.pyenv/versions/3.7.3/lib/libpython3.7m.so .. \
     && make \
-    && chmod -R 777 $HOME/src/spt3g_software
+    && chmod -R 777 $HOME
 
 ENV PORT 8000
 RUN mkdir -p /home/$IMAGEUSER/.jupyter \
     && echo "c.NotebookApp.terminado_settings={'shell_command': ['bash']}" \
     >> /home/$IMAGEUSER/.jupyter/jupyter_notebook_config.py \
-    && chmod -R 777 home/$IMAGEUSER/.jupyter
+    && chmod -R 777 home
 
 CMD $HOME/src/spt3g_software/build/env-shell.sh
 # jupyter lab --ip=0.0.0.0 --no-browser --port $PORT
