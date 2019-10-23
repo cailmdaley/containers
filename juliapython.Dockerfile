@@ -23,7 +23,7 @@ ENV PATH="$HOME/.pyenv/shims:$HOME/.pyenv/bin:$PATH"
 user $IMAGEUSER
 RUN curl https://pyenv.run | bash \
     && CFLAGS="-O2" PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.7.3 \
-    && pyenv global 3.7.3
+    && pyenv global 3.7.3 \
     && chmod -R 777 $HOME/.pyenv
 
 # install Python packages
