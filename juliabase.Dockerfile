@@ -21,16 +21,17 @@ RUN mkdir /opt/julia \
     && ln -s /opt/julia/bin/julia /usr/local/bin
 
 # setup an unprivileged user
-ENV USER imageuser
-ENV HOME /home/$USER
-RUN adduser --disabled-password --gecos "Default user" $USER \
+ENV IMAGEUSER imageuser
+ENV HOME /home/$IMAGEUSER
+RUN adduser --disabled-password --gecos "Default user" $IMAGEUSER \
     && mkdir $HOME/src \
-    && chown -R $USER $HOME
+    && chmod -R 777 $HOME
 
-USER $USER
+USER $IMAGEUSER
 WORKDIR $HOME
 
 # install Julia packages and create src directory
 ENV JULIA_PROJECT=$HOME
 COPY --chown=1000 Project.toml $HOME/
-RUN julia -e 'using Pkg; pkg"instantiate; precompile"'
+RUN julia -e 'using Pkg; pkg"instantiate; precompile"' \
+    && chmod -R 777 $HOME/.julia
