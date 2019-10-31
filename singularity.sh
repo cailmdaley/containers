@@ -1,5 +1,5 @@
 # parse options
-while getopts "n:b:p:i:esr" opt; do
+while getopts "n:b:p:i:cesr" opt; do
   case $opt in
     n)
       IMAGENAME=$OPTARG
@@ -12,6 +12,9 @@ while getopts "n:b:p:i:esr" opt; do
       ;;
     i)
       INSTANCE=$OPTARG
+      ;;
+    c)
+      REMOTE=--remote # cloud builder
       ;;
     e)
       CMD=exec
@@ -45,10 +48,9 @@ fi
 # various singularity commands
 if [[ $BUILDFROM ]]; then
     echo "Building writable docker://cailmdaley/$BUILDFROM as $IMAGENAME.sif" >&2
-    singularity instance stop $INSTANCE >&2
     chmod -R 777 $IMAGENAME.sif
     rm -rf $IMAGENAME.sif
-    singularity build -s $IMAGENAME.sif docker://cailmdaley/$BUILDFROM >&2
+    singularity build $REMOTE -s $IMAGENAME.sif docker://cailmdaley/$BUILDFROM >&2
 fi
 if [[ $PULLFROM ]]; then
     echo "Pulling docker://cailmdaley/$PULLFROM as $IMAGENAME.sif" >&2
