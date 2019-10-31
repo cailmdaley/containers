@@ -51,8 +51,8 @@ if [[ $START ]]; then
 fi
 
 if [[ $INTERACTIVE ]]; then
-    if ! singularity shell $INSTANCE >&2; then
-        echo "Couldn't shell $INSTANCE. Running instances:" >&2
+    if ! singularity shell $INSTANCENAME.sif >&2; then
+        echo "Couldn't shell $INSTANCENAME.sif Currently rrunning instances:" >&2
         singularity instance list >&2
         exit 1
     fi
