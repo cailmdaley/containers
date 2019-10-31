@@ -1,3 +1,9 @@
-[submodule "spt3g_software"]
-	path = spt3g_software
-	url = git@github.com:SouthPoleTelescope/spt3g_software.git
+[submodule "docker-julia3g"]
+	path = docker-julia3g
+	url = git@github.com:cailmdaley/docker-julia3g.git
+[submodule "docker-juliapython"]
+	path = docker-juliapython
+	url = git@github.com:cailmdaley/docker-juliapython.git
+[submodule "docker-juliabase"]
+	path = docker-juliabase
+	url = git@github.com:cailmdaley/docker-juliabase.git

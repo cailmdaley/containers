@@ -1,9 +1,0 @@
-
-Bolometers: {
-    rfrac: 0.7,
-}
-
-LCChannels: {
-    frequency: 1500000.0
-}
-
