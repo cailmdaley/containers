@@ -1,9 +1,9 @@
 [submodule "docker-julia3g"]
-	path = docker-julia3g
+	path = docker-spt
 	url = git@github.com:cailmdaley/docker-julia3g.git
 [submodule "docker-juliapython"]
 	path = docker-juliapython
 	url = git@github.com:cailmdaley/docker-juliapython.git
 [submodule "docker-juliabase"]
-	path = docker-juliabase
+	path = docker-base
 	url = git@github.com:cailmdaley/docker-juliabase.git
