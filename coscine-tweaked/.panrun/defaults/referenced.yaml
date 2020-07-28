@@ -1,0 +1,18 @@
+---
+csl: /src/.panrun/ApJ.csl
+linkcolor: "MidnightBlue"
+citecolor: "MidnightBlue"
+urlcolor: "MidnightBlue"
+
+author: Cail Daley
+standalone: true
+fontsize: 12pt
+geometry: margin=1in
+
+output:
+    latex:
+        to: latex
+        filter: pandoc-citeproc
+        pdf-engine : xelatex
+        include-in-header: /src/.panrun/headers/default_header.tex
+---

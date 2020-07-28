@@ -1,0 +1,11 @@
+---
+author: Cail Daley
+standalone: true
+fontsize: 12pt
+geometry: margin=1in
+
+output:
+    latex:
+        header-includes : |
+          | \usepackage{physics,siunitx}
+---

@@ -1,0 +1,142 @@
+\documentclass
+$if(aastexopts)$
+[
+$for(aastexopts)$
+ $aastexopts$,
+$endfor$
+]
+$endif$
+{$classfile$}
+
+$if(bibstyle)$
+\bibliographystyle{$bibstyle$}
+$endif$
+
+\usepackage{booktabs}
+
+\usepackage{unicode-math}
+\usepackage{savesym}
+\savesymbol{tablenum}
+\usepackage[
+  separate-uncertainty=true,
+  multi-part-units=single,
+  bracket-numbers=false]{siunitx}
+\restoresymbol{SIX}{tablenum}
+
+\usepackage{physics}
+
+\usepackage{/Users/cdaley/.panrun/aastex63/aas_macros}
+
+$if(texpackages)$
+$for(texpackages)$
+\usepackage
+$if(opts)$
+[
+$for(opts)$
+$opts$,
+$endfor$
+]
+$endif$
+{$texpackages.name$}
+$endfor$
+$endif$
+
+$if(preambleinput)$
+$for(preambleinput)$
+\input{$preambleinput$}
+$endfor$
+$endif$
+
+$if(received)$
+\received{$received$}
+$endif$
+
+$if(revised)$
+\revised{$revised$}
+$endif$
+
+$if(accepted)$
+\accepted{$accepted$}
+$endif$
+
+$if(submitjournal)$
+\submitjournal{$submitjournal$}
+$endif$
+
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+\begin{document}
+
+\title{$title$}
+
+$for(author)$
+\author
+    $if(author.ORCID)$
+        [$author.ORCID$]
+    $endif$
+    {$author.name$}
+    $if(author.affiliation)$
+        $for(author.affiliation)$
+            \affiliation{$author.affiliation$}
+        $endfor$
+    $endif$
+    $if(author.collaboration)$
+        $for(author.collaboration)$
+            \collaboration{$author.collaboration$}
+        $endfor$
+    $endif$
+    $if(author.nocollaboration)$
+    \nocollaboration
+    $endif$
+$endfor$
+
+$if(keywords)$
+    \keywords{
+    $for(keywords)$
+        $keywords$ ---
+    $endfor$
+    }
+$endif$
+
+$if(abstract)$
+\begin{abstract}
+$abstract$
+\end{abstract}
+$endif$
+
+$body$
+
+$if(software)$
+\software{
+$for(software)$
+$software$,
+$endfor$
+}
+$endif$
+
+$if(facility)$
+\facility{
+$for(facility)$
+$facility$,
+$endfor$
+}
+$endif$
+
+$if(bibliography)$
+$for(bibliography)$
+\bibliography{$bibliography$}
+$endfor$
+$endif$
+
+\end{document}

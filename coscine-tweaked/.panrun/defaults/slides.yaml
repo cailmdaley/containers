@@ -1,0 +1,22 @@
+---
+author: Cail Daley
+revealjs-url: "https://revealjs.com"
+width:  1600
+height: 900
+theme: /src/.panrun/themes/cail.css
+margin: 0.05
+slideNumber: true
+output:
+    html:
+        to:               revealjs
+        section-divs:     true
+        mathjax:          true
+        template:         /src/.panrun/templates/revealjs_template.html
+        slide-level:      2
+        pdfSeparateFragments : false
+        pdfMaxPagesPerSlide : 1
+        self-contained:   true
+    beamer:
+        to: beamer
+        standalone : true
+---
