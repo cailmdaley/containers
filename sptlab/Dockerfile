@@ -4,7 +4,6 @@ USER root
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         git-lfs \
-        g++ \
         libboost-all-dev \
         libfftw3-dev \
         libflac-dev \
