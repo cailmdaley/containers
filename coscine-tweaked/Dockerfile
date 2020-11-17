@@ -1,4 +1,5 @@
-FROM cailmdaley/coscine:latest
+ARG COSCINE_VERSION=latest
+FROM cailmdaley/coscine:$COSCINE_VERSION
 
 
 # install nodejs for jupyter lab extensions, respectively
@@ -6,7 +7,6 @@ USER root
 RUN apt-get update && apt-get install -y --no-install-recommends \
         nodejs \
         npm
-USER $IMAGE_USER
 
 
 ### Document Export
@@ -17,6 +17,8 @@ ENV TINYTEX_DIR=$SRC/.TinyTeX
 RUN wget -qO- "https://yihui.name/gh/tinytex/tools/install-unx.sh" | sh -s - --admin \
     # install useful packages & pandoc pdf dependencies
     && tlmgr install \
+        biblatex \
+        caption \
         collection-fontsrecommended \
         dvipng \
         epsf \
@@ -38,15 +40,15 @@ RUN wget -qO- "https://yihui.name/gh/tinytex/tools/install-unx.sh" | sh -s - --a
     && fix-permissions $SRC
 
 # install pandoc:
-ENV PANDOC_VERSION=2.10
+ENV PANDOC_VERSION=2.11.0.2
 RUN wget https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-1-amd64.deb \
     && dpkg -i pandoc-${PANDOC_VERSION}-1-amd64.deb \
     && rm pandoc-${PANDOC_VERSION}-1-amd64.deb
 ENV XDG_DATA_HOME=$SRC
 
+USER $IMAGE_USER
 
-
-ENV CROSSREF_VERSION=0.3.7.0
+ENV CROSSREF_VERSION=0.3.8.3
 RUN mkdir -p $SRC/pandoc/filters \
     && curl -L https://github.com/lierdakil/pandoc-crossref/releases/download/v${CROSSREF_VERSION}/pandoc-crossref-Linux-${PANDOC_VERSION}.tar.xz \
         | tar -xJf - -C $SRC/pandoc/filters pandoc-crossref \

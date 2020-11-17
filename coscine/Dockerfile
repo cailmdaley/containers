@@ -1,4 +1,4 @@
-FROM python:3.8.2-slim
+FROM python:3.9
 
 ### Basic Setup
 ################################################################################
@@ -52,7 +52,7 @@ USER $IMAGE_USER
 
 # get julia binary
 ENV JULIA_DEPOT_PATH=$SRC/.julia
-COPY --from=julia:1.4.1 --chown=1000 /usr/local/julia $JULIA_DEPOT_PATH
+COPY --from=julia:1.5.2 --chown=1000 /usr/local/julia $JULIA_DEPOT_PATH
 RUN ln -s $JULIA_DEPOT_PATH/bin/julia $SRC/bin/julia
 
 
@@ -71,6 +71,5 @@ RUN pip install --no-cache-dir \
         jupyterlab \
         matplotlib \
         numpy \
-        pandas \
         scipy \
-    && julia -e 'using Pkg; pkg"add PyCall PyPlot IJulia; precompile"'
+    && julia -e 'using Pkg; pkg"add PyCall IJulia; precompile"'

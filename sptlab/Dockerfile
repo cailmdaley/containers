@@ -1,4 +1,5 @@
-FROM cailmdaley/coscine-tweaked:latest
+ARG COSCINE_VERSION=latest
+FROM cailmdaley/coscine-tweaked:$COSCINE_VERSION
 
 USER root
 
@@ -21,19 +22,11 @@ RUN pip install --no-cache-dir \
         numexpr
 
 
-COPY --chown=1000 github-key $HOME/.ssh/id_rsa
-RUN ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts \
-    && git -C $SRC clone git@github.com:SouthPoleTelescope/spt3g_software.git \
-    && cd $SRC/spt3g_software \
-        && mkdir build \
-        && cd build \
-        && cmake .. \
-        && make -j8
-
 USER $IMAGE_USER
-RUN $SRC/spt3g_software/build/env-shell.sh
+
+COPY --chown=1000 *.sh $SRC/bin/
 ENV SPT3G_SOFTWARE_PATH=/src/spt3g_software \
-	SPT3G_SOFTWARE_BUILD_PATH=/src/spt3g_software/build
+    SPT3G_SOFTWARE_BUILD_PATH=/src/spt3g_software/build
 ENV PATH=${SPT3G_SOFTWARE_BUILD_PATH}/bin:$PATH \
     LD_LIBRARY_PATH=${SPT3G_SOFTWARE_BUILD_PATH}/spt3g:$LD_LIBRARY_PATH \
     PYTHONPATH=${SPT3G_SOFTWARE_BUILD_PATH}:$PYTHONPATH

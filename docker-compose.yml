@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  sptlab:
+    image: cailmdaley/sptlab:latest
+    container_name: sptlab
+    ports:
+      - "8888:8888"
+    volumes: 
+      - '/Users/cailmdaley/:/Users/cailmdaley/'
+    command: jupyter lab

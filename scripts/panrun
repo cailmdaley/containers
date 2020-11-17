@@ -1,3 +1,0 @@
-#!/bin/bash
-
-docker exec -w $PWD sptlab panrun "$@"
