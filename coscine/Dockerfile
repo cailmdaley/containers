@@ -40,21 +40,20 @@ ENV SRC=/src
 RUN mkdir -p $SRC/bin \
     && chown -R $IMAGE_USER $SRC \
     && fix-permissions $SRC
-ENV PATH=$SRC/bin:$PATH \
-    PYTHONPATH=$SRC:$PYTHONPATH
+ENV PATH=$SRC/bin:$PATH
 
 
 ### Python / Julia Setup
 ################################################################################
 
-# all of the following can be done withoug sudo
-USER $IMAGE_USER
+# all of the following can be done without sudo
 
 # get julia binary
-ENV JULIA_DEPOT_PATH=$SRC/.julia
-COPY --from=julia:1.5.2 --chown=1000 /usr/local/julia $JULIA_DEPOT_PATH
-RUN ln -s $JULIA_DEPOT_PATH/bin/julia $SRC/bin/julia
+# ENV JULIA_DEPOT_PATH=$SRC/.julia
+COPY --from=julia:1.6.0 --chown=1000 /usr/local/julia /usr/local/julia
+RUN ln -s /usr/local/julia/bin/julia /usr/local/bin/julia
 
+USER $IMAGE_USER
 
 # tell python where to --user install packages
 ENV PYTHONUSERBASE=$SRC/.python
@@ -71,5 +70,5 @@ RUN pip install --no-cache-dir \
         jupyterlab \
         matplotlib \
         numpy \
-        scipy \
-    && julia -e 'using Pkg; pkg"add PyCall IJulia; precompile"'
+        scipy
+    # && julia -e 'using Pkg; pkg"add PyCall IJulia; precompile"'
