@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.9 as base
 
 ### Basic Setup
 ################################################################################
@@ -15,7 +15,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libfontconfig \
         man \
         make \
-        ssh-client \
         sudo \
         tar \
         vim \
@@ -49,7 +48,6 @@ ENV PATH=$SRC/bin:$PATH
 # all of the following can be done without sudo
 
 # get julia binary
-# ENV JULIA_DEPOT_PATH=$SRC/.julia
 COPY --from=julia:1.6.0 --chown=1000 /usr/local/julia /usr/local/julia
 RUN ln -s /usr/local/julia/bin/julia /usr/local/bin/julia
 
@@ -59,16 +57,66 @@ USER $IMAGE_USER
 ENV PYTHONUSERBASE=$SRC/.python
 ENV PATH=$PYTHONUSERBASE/bin:$PATH
 
-# tell jupyter where to put things
-ENV JUPYTER_PATH=$SRC/.jupyter
-ENV JUPYTER_CONFIG_DIR=$JUPYTER_PATH \
-    JUPYTER_DATA_DIR=$JUPYTER_PATH
-
 # install python and julia packages
 RUN pip install --no-cache-dir \
         julia \
-        jupyterlab \
         matplotlib \
         numpy \
         scipy
-    # && julia -e 'using Pkg; pkg"add PyCall IJulia; precompile"'
+
+# remove default python command
+CMD []
+
+
+### Development Image: jupyter, writing tools
+################################################################################
+FROM base as dev
+
+USER root
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        nodejs \
+        npm \
+        openssh-server
+
+# Pandoc
+ENV PANDOC_VERSION=2.11.0.2
+RUN wget https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-1-amd64.deb \
+    && dpkg -i pandoc-${PANDOC_VERSION}-1-amd64.deb \
+    && rm pandoc-${PANDOC_VERSION}-1-amd64.deb
+ENV XDG_DATA_HOME=$SRC
+
+USER $IMAGE_USER
+
+# TinyTeX
+ENV TINYTEX_DIR=$SRC
+RUN wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh"  | sh \
+    && $SRC/.TinyTeX/bin/*/tlmgr option sys_bin $SRC/bin \
+    && $SRC/.TinyTeX/bin/*/tlmgr path add \ 
+    # install useful packages & pandoc pdf dependencies
+    && tlmgr install \
+        biblatex \
+        caption \
+        collection-fontsrecommended \
+        dvipng \
+        epsf \
+        epstopdf-pkg \
+        fancyhdr \
+        grfext \
+        lm-math \
+        mathtools \
+        microtype \
+        physics \
+        revtex4-1 \
+        savesym \
+        siunitx \
+        textcase \
+        ulem \
+        unicode-math \
+        wrapfig \
+        xcolor
+
+# Install jupyter
+ENV JUPYTER_PATH=$SRC/.jupyter
+ENV JUPYTER_CONFIG_DIR=$JUPYTER_PATH \
+    JUPYTER_DATA_DIR=$JUPYTER_PATH
+RUN pip install --no-cache-dir jupyterlab

@@ -1,11 +1,30 @@
-version: '3.4'
+version: '3.8'
 
 services:
-  sptlab:
-    image: cailmdaley/sptlab:latest
-    container_name: sptlab
-    ports:
-      - "8888:8888"
-    volumes: 
-      - '/Users/cailmdaley/:/Users/cailmdaley/'
-    command: jupyter lab
+  coscine:
+    image: cailmdaley/coscine:${version}
+    build: 
+      context: coscine
+      target:  base
+  coscine-dev:
+    image: cailmdaley/coscine:${version}-dev
+    build: 
+      context: coscine
+      target:  dev
+  sptlab-dev:
+    image: cailmdaley/sptlab:${version}-dev
+    build: 
+      context: sptlab
+      target:  base
+      args:
+        COSCINE_VERSION: ${version}-dev
+
+# services:
+#   sptlab:
+#     image: cailmdaley/sptlab:latest
+#     container_name: sptlab
+#     ports:
+#       - "8888:8888"
+#     volumes: 
+#       - '/Users/cailmdaley/:/Users/cailmdaley/'
+#     command: jupyter lab
