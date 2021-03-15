@@ -48,7 +48,8 @@ ENV PATH=$SRC/bin:$PATH
 # all of the following can be done without sudo
 
 # get julia binary
-COPY --from=julia:1.6.0 --chown=1000 /usr/local/julia /usr/local/julia
+ENV JULIA_VERSION=1.6
+COPY --from=julia:1.6 --chown=1000 /usr/local/julia /usr/local/julia
 RUN ln -s /usr/local/julia/bin/julia /usr/local/bin/julia
 
 USER $IMAGE_USER

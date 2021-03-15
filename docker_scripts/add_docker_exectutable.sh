@@ -9,7 +9,7 @@ mkdir -p $OUTPUT_DIR
 cat > $FILE <<- EOM
 #!/bin/bash
 
-docker exec -w $PWD sptlab $COMMAND "\$@"
+docker exec -it -w \$PWD sptlab $COMMAND "\$@"
 EOM
 
 chmod +x $FILE
