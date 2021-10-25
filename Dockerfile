@@ -1,6 +1,6 @@
 FROM python:3.9 as coscine
 
-### Basic Setup
+### Base Container
 ################################################################################
 
 # install apt-get dependencies
@@ -43,12 +43,10 @@ ENV PATH=$SRC/bin:$PATH
 
 
 ### Python / Julia Setup
-################################################################################
-
 # all of the following can be done without sudo
 
 # get julia binary
-ENV JULIA_VERSION=1.6
+ENV JULIA_VERSION=1.7
 COPY --from=julia:1.6 --chown=1000 /usr/local/julia /usr/local/julia
 RUN ln -s /usr/local/julia/bin/julia /usr/local/bin/julia
 
@@ -63,6 +61,7 @@ RUN pip install --no-cache-dir \
         julia \
         matplotlib \
         numpy \
+        pandas \
         scipy \
         snakemake
 
@@ -121,8 +120,10 @@ RUN wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh"  | sh \
 ENV JUPYTER_PATH=$SRC/.jupyter
 ENV JUPYTER_CONFIG_DIR=$JUPYTER_PATH \
     JUPYTER_DATA_DIR=$JUPYTER_PATH
-RUN pip install --no-cache-dir jupyterlab
+RUN pip install --no-cache-dir jupyterlab pytest
 
+### SPTlab
+################################################################################
 FROM coscine-dev as sptlab
 
 USER root
@@ -144,12 +145,6 @@ RUN pip install --no-cache-dir \
         numexpr \
         pymaster
 COPY --chown=1000 *.sh $SRC/bin/
-
-
-# # Full development container
-# ################################################################################
-# FROM base as dev
-# RUN pip install --no-cache-dir pytest
 
 # # Production container (precompiled Julia packages)
 # ################################################################################

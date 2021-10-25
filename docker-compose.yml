@@ -4,46 +4,22 @@ services:
   coscine:
     image: cailmdaley/coscine:${version}
     build: 
-      context: coscine
+      context: .
       target:  coscine
   coscine-dev:
     image: cailmdaley/coscine:dev-${version}
     build: 
-      context: coscine
+      context: .
       target:  coscine-dev
   sptlab:
     image: cailmdaley/sptlab:dev-${version}
     build: 
-      context: coscine
+      context: .
       target:  sptlab
     container_name: sptlab
     ports:
       - "8888:8888"
     volumes: 
       - '/Users/cailmdaley/:/Users/cailmdaley/'
-    # command: "jupyter lab --ip 0.0.0.0"
     command: "tail -f /dev/null"
-
-  # sptlab-dev-latest:
-  #   extends: sptlab-dev
-  #   image: cailmdaley/sptlab:dev-latest
-
-  # sptlab-prod:
-  #   image: cailmdaley/sptlab:prod-${version}
-  #   build: 
-  #     context: sptlab
-  #     target:  prod
-  #     args:
-  #       COSCINE_VERSION: ${version}
-  #   container_name: sptlab-prod
-  #   ports:
-  #     - "8888:8888"
-  #   volumes: 
-  #     - '/Users/cailmdaley/:/Users/cailmdaley/'
-  #   command: "tail -f /dev/null &"
-  # sptlab-prod-latest:
-  #   extends: sptlab-prod
-  #   image: cailmdaley/sptlab:prod-latest
-  # sptlab-osg-latest:
-  #   extends: sptlab-prod
-  #   image: cailmdaley/sptlab:osg-latest
+    # command: "jupyter lab --ip 0.0.0.0"
