@@ -1,4 +1,4 @@
-FROM python:3.9 as base
+FROM python:3.9 as coscine
 
 ### Basic Setup
 ################################################################################
@@ -63,7 +63,8 @@ RUN pip install --no-cache-dir \
         julia \
         matplotlib \
         numpy \
-        scipy
+        scipy \
+        snakemake
 
 # remove default python command
 CMD []
@@ -71,7 +72,7 @@ CMD []
 
 ### Development Image: jupyter, writing tools
 ################################################################################
-FROM base as dev
+FROM coscine as coscine-dev
 
 USER root
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -80,7 +81,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         openssh-server
 
 # Pandoc
-ENV PANDOC_VERSION=2.11.0.2
+ENV PANDOC_VERSION=2.14.1
 RUN wget https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-1-amd64.deb \
     && dpkg -i pandoc-${PANDOC_VERSION}-1-amd64.deb \
     && rm pandoc-${PANDOC_VERSION}-1-amd64.deb
@@ -121,3 +122,42 @@ ENV JUPYTER_PATH=$SRC/.jupyter
 ENV JUPYTER_CONFIG_DIR=$JUPYTER_PATH \
     JUPYTER_DATA_DIR=$JUPYTER_PATH
 RUN pip install --no-cache-dir jupyterlab
+
+FROM coscine-dev as sptlab
+
+USER root
+# dependencies for 3g-software & namaster
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        libboost-all-dev \
+        libfftw3-dev \
+        libflac-dev \
+        libgsl0-dev \
+        libnetcdf-dev \
+        libcfitsio-dev # for namaster
+
+USER $IMAGE_USER
+RUN pip install --no-cache-dir \
+        astropy \
+        camb \
+        healpy \
+        h5py \
+        numexpr \
+        pymaster
+COPY --chown=1000 *.sh $SRC/bin/
+
+
+# # Full development container
+# ################################################################################
+# FROM base as dev
+# RUN pip install --no-cache-dir pytest
+
+# # Production container (precompiled Julia packages)
+# ################################################################################
+# FROM base as prod
+
+# ENV JULIA_DEPOT_PATH=$SRC/.julia
+# COPY --chown=1000 Project.toml $JULIA_DEPOT_PATH/environments/v${JULIA_VERSION}/Project.toml
+# RUN git clone https://github.com/SouthPoleTelescope/CMBLensingSPT3GInterface /src/CMBLensingSPT3GInterface \
+#     && julia -e 'using Pkg; Pkg.instantiate()' \
+# #     && julia -e 'using Pkg; Pkg.develop(path="/src/CMBLensingSPT3GInterface")' \
+#     && julia -e 'using Pkg; Pkg.precompile()'
