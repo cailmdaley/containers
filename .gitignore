@@ -1,4 +1,14 @@
-.DS_Store
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Docker artifacts
 *.sif
-*_scripts/*
-!*_scripts/*.sh
+
+# Editors
+.vscode/
+.idea/
+.DS_Store
+archive/**/.git
+*.sif

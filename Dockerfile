@@ -1,158 +1,157 @@
-FROM python:3.9 as coscine
+# syntax=docker/dockerfile:1.7
 
-### Base Container
-################################################################################
+# Single-stage image: merges ShapePipe's Dockerfile with SP Validation additions
+# and a rich CLI toolset for agents. No conda.
 
-# install apt-get dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        cmake \
-        curl \
-        gcc \
-        g++ \
-        gfortran \
-        git \
-        less \
-        libfontconfig \
-        man \
-        make \
-        sudo \
-        tar \
-        vim \
-        wget \
-        xz-utils
+FROM python:3.12-bookworm
 
-# add very useful permissions tidier
-COPY fix-permissions /usr/local/bin/fix-permissions
-RUN chmod a+rx /usr/local/bin/fix-permissions
+LABEL description="Cosmological data analysis environment: cosmic shear, CMB lensing, cross-correlations"
 
-# create unprivileged user $IMAGE_USER
-ENV IMAGE_USER=imageuser \
-    IMAGE_UID=1000 \
-    IMAGE_GID=100
-ENV HOME=/home/$IMAGE_USER
-RUN useradd -m -s /bin/bash -N -u $IMAGE_UID $IMAGE_USER && \
-    fix-permissions $HOME
-WORKDIR $HOME
+ENV SHELL=/bin/bash \
+    DEBIAN_FRONTEND=noninteractive \
+    PIP_NO_CACHE_DIR=1 \
+    LANG=C.UTF-8
 
-# create user-writable /src and /src/bin directory for software and config files
-ENV SRC=/src
-RUN mkdir -p $SRC/bin \
-    && chown -R $IMAGE_USER $SRC \
-    && fix-permissions $SRC
-ENV PATH=$SRC/bin:$PATH
+RUN set -eux; \
+    # --- System upgrade --- \
+    apt-get update -y --quiet --fix-missing && \
+    apt-get dist-upgrade -y --quiet --fix-missing && \
+    # --- Base build and runtime deps (ShapePipe core) --- \
+    pkgs="\
+      apt-utils \
+      autoconf \
+      automake \
+      build-essential \
+      cmake \
+      curl \
+      wget \
+      ffmpeg \
+      g++ \
+      gcc \
+      gfortran \
+      git \
+      git-lfs \
+      libatlas-base-dev \
+      libblas-dev \
+      liblapack-dev \
+      libcfitsio-dev \
+      libfftw3-bin \
+      libfftw3-dev \
+      libgl1-mesa-glx \
+      libtool \
+      libtool-bin \
+      libtool-doc \
+      locales \
+      locate \
+      make \
+      openmpi-bin \
+      libopenmpi-dev \
+      pkg-config \
+      protobuf-compiler \
+      psfex \
+      source-extractor \
+      weightwatcher \
+      vim \
+      xterm \
+      libgsl-dev \
+      npm \
+      tmux \
+      ca-certificates \
+      # Agentic / developer tools (always included)
+      ripgrep \
+      fd-find \
+      fzf \
+      bat \
+      jq \
+      yq \
+      delta \
+      httpie \
+      aria2 \
+      sqlite3 \
+      hyperfine \
+      btop \
+      duf \
+      procps \
+      htop \
+      less \
+      unzip \
+      zip \
+      rsync \
+      openssh-client \
+      tldr "; \
+    # --- Install --- \
+    apt-get install -y --quiet --no-install-recommends $pkgs && \
+    # convenience symlinks (Debian names) \
+    if command -v batcat >/dev/null 2>&1; then ln -sf "$(command -v batcat)" /usr/local/bin/bat; fi && \
+    if command -v fdfind  >/dev/null 2>&1; then ln -sf "$(command -v fdfind)"  /usr/local/bin/fd;  fi && \
+    # cleanup \
+    apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
 
+# Python dependencies (relaxed pins for rapid development) + Snakemake
+RUN python -m pip install --no-cache-dir --upgrade pip setuptools wheel && \
+    pip install --no-cache-dir \
+      astropy \
+      adjustText \
+      camb \
+      clmm \
+      colorama \
+      cs_util \
+      emcee \
+      h5py \
+      healpy \
+      healsparse \
+      importlib_metadata \
+      ipython \
+      joblib \
+      jupyter \
+      jupyterlab \
+      jupytext \
+      lenspack \
+      lmfit \
+      numexpr \
+      numpy \
+      numba \
+      numpydoc \
+      opencv-python-headless \
+      pandas \
+      PyQt5 \
+      pyqtgraph \
+      pyccl \
+      pyarrow \
+      pymaster \
+      pytest \
+      pytest-cov \
+      pytest-pydocstyle \
+      pytest-pycodestyle \
+      regions \
+      reproject \
+      scipy \
+      seaborn \
+      skyproj \
+      sf_tools \
+      sip_tpv \
+      skaha \
+      sqlitedict \
+      statsmodels \
+      termcolor \
+      tqdm \
+      treecorr \
+      uncertainties \
+      vos \
+      snakemake \
+      lenspyx \
+      ducc0 \
+      # Git-based dependencies
+      git+https://github.com/aguinot/cosmo-numba \
+      git+https://github.com/benabed/getdist.git@upper_triangle_whisker \
+      git+https://github.com/CosmoStat/shear_psf_leakage.git@develop \
+      git+https://github.com/aguinot/ngmix@stable_version \
+      git+https://github.com/tobias-liaudat/Stile@v0.1 \
+      git+https://github.com/CEA-COSMIC/pysap@develop
 
-### Python / Julia Setup
-# all of the following can be done without sudo
+# Working directory for user code
+WORKDIR /workspace
 
-# get julia binary
-ENV JULIA_VERSION=1.7
-COPY --from=julia:1.6 --chown=1000 /usr/local/julia /usr/local/julia
-RUN ln -s /usr/local/julia/bin/julia /usr/local/bin/julia
-
-USER $IMAGE_USER
-
-# tell python where to --user install packages
-ENV PYTHONUSERBASE=$SRC/.python
-ENV PATH=$PYTHONUSERBASE/bin:$PATH
-
-# install python and julia packages
-RUN pip install --no-cache-dir \
-        julia \
-        matplotlib \
-        numpy \
-        pandas \
-        scipy \
-        snakemake
-
-# remove default python command
-CMD []
-
-
-### Development Image: jupyter, writing tools
-################################################################################
-FROM coscine as coscine-dev
-
-USER root
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        nodejs \
-        npm \
-        openssh-server
-
-# Pandoc
-ENV PANDOC_VERSION=2.14.1
-RUN wget https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-1-amd64.deb \
-    && dpkg -i pandoc-${PANDOC_VERSION}-1-amd64.deb \
-    && rm pandoc-${PANDOC_VERSION}-1-amd64.deb
-ENV XDG_DATA_HOME=$SRC
-
-USER $IMAGE_USER
-
-# TinyTeX
-ENV TINYTEX_DIR=$SRC
-RUN wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh"  | sh \
-    && $SRC/.TinyTeX/bin/*/tlmgr option sys_bin $SRC/bin \
-    && $SRC/.TinyTeX/bin/*/tlmgr path add \ 
-    # install useful packages & pandoc pdf dependencies
-    && tlmgr install \
-        biblatex \
-        caption \
-        collection-fontsrecommended \
-        dvipng \
-        epsf \
-        epstopdf-pkg \
-        fancyhdr \
-        grfext \
-        lm-math \
-        mathtools \
-        microtype \
-        physics \
-        revtex4-1 \
-        savesym \
-        siunitx \
-        textcase \
-        ulem \
-        unicode-math \
-        wrapfig \
-        xcolor
-
-# Install jupyter
-ENV JUPYTER_PATH=$SRC/.jupyter
-ENV JUPYTER_CONFIG_DIR=$JUPYTER_PATH \
-    JUPYTER_DATA_DIR=$JUPYTER_PATH
-RUN pip install --no-cache-dir jupyterlab pytest
-
-### SPTlab
-################################################################################
-FROM coscine-dev as sptlab
-
-USER root
-# dependencies for 3g-software & namaster
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        libboost-all-dev \
-        libfftw3-dev \
-        libflac-dev \
-        libgsl0-dev \
-        libnetcdf-dev \
-        libcfitsio-dev # for namaster
-
-USER $IMAGE_USER
-RUN pip install --no-cache-dir \
-        astropy \
-        camb \
-        healpy \
-        h5py \
-        numexpr \
-        pymaster
-COPY --chown=1000 *.sh $SRC/bin/
-
-# # Production container (precompiled Julia packages)
-# ################################################################################
-# FROM base as prod
-
-# ENV JULIA_DEPOT_PATH=$SRC/.julia
-# COPY --chown=1000 Project.toml $JULIA_DEPOT_PATH/environments/v${JULIA_VERSION}/Project.toml
-# RUN git clone https://github.com/SouthPoleTelescope/CMBLensingSPT3GInterface /src/CMBLensingSPT3GInterface \
-#     && julia -e 'using Pkg; Pkg.instantiate()' \
-# #     && julia -e 'using Pkg; Pkg.develop(path="/src/CMBLensingSPT3GInterface")' \
-#     && julia -e 'using Pkg; Pkg.precompile()'
+# Default entry
+ENTRYPOINT ["bash"]
+CMD ["-l"]
