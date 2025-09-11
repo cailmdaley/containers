@@ -16,7 +16,7 @@ docker run --rm -it ghcr.io/cailmdaley/containers:latest bash
 ```
 
 ## What’s Inside
-- Base: `python:3.12-bookworm`.
+- Base: `python:3.11-bookworm`.
 - ShapePipe OS deps: FFTW, CFITSIO, OpenMPI, PSFEx, Source Extractor, WeightWatcher, toolchain, etc.
 - Python stack (unpinned for rapid dev): full ShapePipe stack plus all `sp_validation` dependencies, e.g., astropy, galsim, treecorr, numpy/numba, healpy/healsparse, pyccl, pymaster, camb, clmm, jupyter/jupyterlab, pytest, etc. Also includes Lenspyx and ducc0 for CMB lensing.
 - Snakemake (from SP Validation).

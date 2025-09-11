@@ -3,7 +3,7 @@
 # Single-stage image: merges ShapePipe's Dockerfile with SP Validation additions
 # and a rich CLI toolset for agents. No conda.
 
-FROM python:3.12-bookworm
+FROM python:3.11-bookworm
 
 LABEL description="Cosmological data analysis environment: cosmic shear, CMB lensing, cross-correlations"
 
