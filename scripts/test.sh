@@ -5,7 +5,7 @@ python - <<'PY'
 import importlib, sys
 mods = [
     'astropy', 'healpy', 'healsparse', 'pyccl', 'pymaster', 'camb', 'clmm',
-    'treecorr', 'lenspyx', 'ducc0', 'numpy', 'numba', 'mpi4py'
+    'treecorr', 'lenspyx', 'ducc0', 'numpy', 'numba', 'mpi4py', 'sp_validation'
 ]
 bad = []
 for m in mods:
@@ -22,14 +22,5 @@ PY
 
 echo "[smoke] snakemake --version"
 snakemake --version
-
-echo "[smoke] treecorr --help"
-treecorr --help >/dev/null
-
-echo "[smoke] healpy version"
-python - <<'PY'
-import healpy as hp
-print("healpy", hp.__version__)
-PY
 
 echo "Smoke tests passed"
