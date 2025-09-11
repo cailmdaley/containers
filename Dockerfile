@@ -147,7 +147,6 @@ RUN python -m pip install --no-cache-dir --upgrade pip setuptools wheel && \
       git+https://github.com/CosmoStat/shear_psf_leakage.git@develop \
       git+https://github.com/aguinot/ngmix@stable_version \
       git+https://github.com/tobias-liaudat/Stile@v0.1 \
-      git+https://github.com/CEA-COSMIC/pysap@develop
 
 # Working directory for user code
 WORKDIR /workspace
