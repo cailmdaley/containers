@@ -58,7 +58,7 @@ jobs:
           docker run --rm \
             -v "${{ github.workspace }}:/workspace" \
             ${{ fromJSON(steps.meta.outputs.json).tags[0] }} \
-            bash -lc 'cd /workspace && scripts/test.sh'
+            -lc 'cd /workspace && scripts/test.sh'
 
       # Rebuild to push (no load) to GHCR
       - name: Build and Push
@@ -71,4 +71,3 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           provenance: false
-
