@@ -57,7 +57,7 @@ RUN set -eux; \
       npm \
       tmux \
       ca-certificates \
-      # Agentic / developer tools (always included)
+      # Agentic / developer tools 
       ripgrep \
       fd-find \
       fzf \
@@ -147,7 +147,8 @@ RUN python -m pip install --no-cache-dir --upgrade pip setuptools wheel && \
       git+https://github.com/benabed/getdist.git@upper_triangle_whisker \
       git+https://github.com/CosmoStat/shear_psf_leakage.git@develop \
       git+https://github.com/aguinot/ngmix@stable_version \
-      git+https://github.com/tobias-liaudat/Stile@v0.1
+      git+https://github.com/tobias-liaudat/Stile@v0.1 \
+      git+https://github.com/CosmoStat/sp_validation
 
 # Working directory for user code
 WORKDIR /workspace
