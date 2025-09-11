@@ -111,6 +111,7 @@ RUN python -m pip install --no-cache-dir --upgrade pip setuptools wheel && \
       numexpr \
       numpy \
       numba \
+      mpi4py \
       numpydoc \
       opencv-python-headless \
       pandas \
