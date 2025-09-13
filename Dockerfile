@@ -90,10 +90,12 @@ RUN set -eux; \
 
 # Quarto (for scientific writing) — latest AMD64 build
 RUN set -eux; \
-    wget -q "https://github.com/quarto-dev/quarto-cli/releases/latest/download/quarto-linux-amd64.deb"; \
+    curl -fL --retry 5 --retry-all-errors \
+      -o /tmp/quarto-linux-amd64.deb \
+      "https://github.com/quarto-dev/quarto-cli/releases/latest/download/quarto-linux-amd64.deb"; \
     apt-get update -y --quiet; \
-    apt-get install -y --quiet --no-install-recommends ./quarto-linux-amd64.deb; \
-    rm -f quarto-linux-amd64.deb && \
+    apt-get install -y --quiet --no-install-recommends /tmp/quarto-linux-amd64.deb; \
+    rm -f /tmp/quarto-linux-amd64.deb && \
     apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
 
 # Python dependencies (relaxed pins for rapid development) + Snakemake
