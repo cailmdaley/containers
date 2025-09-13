@@ -18,5 +18,5 @@ Tools included:
 - Interactive: `ipython`, `jupyter`, `jupyterlab`, `jupytext`, `PyQt5`, `pyqtgraph`
 - Writing tools: `pandoc`, `quarto`
 - Low-level / compiler tools: `CMake`, `FFTW`, `CFITSIO`, `OpenMPI`, `gcc/g++/gfortran`
-- Utilities: `vim`, `tmux`, `npm`, `xterm`, `rsync`
-- Agent tools: `ripgrep`, `fd` (via `fd-find`), `fzf`, `bat`, `jq`, `yq`, `delta`, `httpie`, `aria2`, `sqlite3`, `hyperfine`, `btop`, `duf`, `procps`, `htop`, `less`, `unzip`, `zip`, `tldr`
+- Utilities: `vim`, `tmux`, `npm`, `xterm`, `rsync`, `htop`, `less`
+- Agent tools: `ripgrep`, `fd` (via `fd-find`), `fzf`, `bat`, `jq`, `yq`, `delta`, `httpie`, `aria2`, `sqlite3`, `hyperfine`, `btop`, `duf`, `procps`, `unzip`, `zip`, `tldr`
