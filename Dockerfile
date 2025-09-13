@@ -102,10 +102,6 @@ RUN set -eux; \
       'EOF' \
       > /etc/xdg/nvim/sysinit.vim
 
-# Smoke test: ensure system NvChad sysinit is picked up
-RUN set -eux; \
-    out="$(nvim --headless '+echo exists(\"g:using_system_nvchad\") | q' 2>/dev/null | tr -d '\r')"; \
-    [ "$out" = "1" ]
 
 # Prefer Neovim as default editor inside the container
 ENV EDITOR=nvim \

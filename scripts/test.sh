@@ -29,4 +29,12 @@ pandoc --version | head -n 1
 echo "[smoke] quarto --version"
 quarto --version
 
+echo "[smoke] nvim sysinit (NvChad)"
+out="$(nvim --headless '+echo exists(\"g:using_system_nvchad\") | q' 2>/dev/null | tr -d '\r')"
+if [ "$out" != "1" ]; then
+  echo "FAIL: NvChad sysinit not detected"
+  exit 1
+fi
+echo "OK: NvChad sysinit detected"
+
 echo "Smoke tests passed"
