@@ -90,12 +90,19 @@ RUN set -eux; \
 
 # Quarto (for scientific writing) — latest AMD64 build
 RUN set -eux; \
-    curl -fL --retry 5 --retry-all-errors \
-      -o /tmp/quarto-linux-amd64.deb \
-      "https://github.com/quarto-dev/quarto-cli/releases/latest/download/quarto-linux-amd64.deb"; \
+    STABLE_URL="https://github.com/quarto-dev/quarto-cli/releases/latest/download/quarto-linux-amd64.deb"; \
+    TMP_DEB="/tmp/quarto-linux-amd64.deb"; \
+    if ! curl -fL --retry 5 --retry-all-errors -o "$TMP_DEB" "$STABLE_URL"; then \
+      echo "Stable Quarto download failed; trying prerelease channel"; \
+      PRE_URL=$(curl -fsSL https://quarto.org/docs/download/_prerelease.json \
+        | sed -n 's/.*"download_url"[[:space:]]*:[[:space:]]*"\([^"']*amd64\.deb\)".*/\1/p' \
+        | head -n1); \
+      test -n "$PRE_URL"; \
+      curl -fL --retry 5 --retry-all-errors -o "$TMP_DEB" "$PRE_URL"; \
+    fi; \
     apt-get update -y --quiet; \
-    apt-get install -y --quiet --no-install-recommends /tmp/quarto-linux-amd64.deb; \
-    rm -f /tmp/quarto-linux-amd64.deb && \
+    apt-get install -y --quiet --no-install-recommends "$TMP_DEB"; \
+    rm -f "$TMP_DEB" && \
     apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
 
 # Python dependencies (relaxed pins for rapid development) + Snakemake
