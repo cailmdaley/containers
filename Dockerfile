@@ -57,6 +57,7 @@ RUN set -eux; \
       npm \
       tmux \
       ca-certificates \
+      pandoc \
       # Agentic / developer tools 
       ripgrep \
       fd-find \
@@ -85,6 +86,22 @@ RUN set -eux; \
     if command -v batcat >/dev/null 2>&1; then ln -sf "$(command -v batcat)" /usr/local/bin/bat; fi && \
     if command -v fdfind  >/dev/null 2>&1; then ln -sf "$(command -v fdfind)"  /usr/local/bin/fd;  fi && \
     # cleanup \
+    apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
+
+# Quarto (for scientific writing)
+RUN set -eux; \
+    arch="$(dpkg --print-architecture)"; \
+    case "$arch" in \
+      amd64) qarch=amd64 ;; \
+      arm64) qarch=arm64 ;; \
+      *) qarch="$arch" ;; \
+    esac; \
+    QUARTO_VERSION=1.5.57; \
+    wget -q "https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-${qarch}.deb"; \
+    apt-get update -y --quiet; \
+    apt-get install -y --quiet --no-install-recommends gdebi-core; \
+    gdebi -n "quarto-${QUARTO_VERSION}-linux-${qarch}.deb"; \
+    rm -f "quarto-${QUARTO_VERSION}-linux-${qarch}.deb" && \
     apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
 
 # Python dependencies (relaxed pins for rapid development) + Snakemake

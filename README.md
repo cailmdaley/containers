@@ -1,6 +1,10 @@
 # Cosmological Data Analysis Container
 
-Single Dockerfile, no conda. Merges the ShapePipe environment with SP Validation dependencies, adds agent-friendly CLI tools, and targets cosmic shear, CMB lensing, and cross-correlations. No multi-stage builds.
+Container for observational cosmology and data analysis. Key tool themes:
+- CMB: `lenspyx`, `ducc0`, `healpy`, `pymaster`, `camb`
+- Cosmic shear: `treecorr`, `pyccl`, `pymaster`, `camb`, `clmm`, `healsparse`, `ngmix`, `shear_psf_leakage`
+- Writing tools: `jupyter`, `jupyterlab`, `jupytext`, `ipython`, `pandoc`, `quarto`
+- Agent tools: `ripgrep`, `fd` (via `fd-find`), `fzf`, `bat`, `jq`, `yq`, `delta`, `httpie`, `aria2`, `sqlite3`, `hyperfine`, `btop`, `duf`, `procps`, `htop`, `less`, `unzip`, `zip`, `rsync`, `openssh-client`, `tldr`, `vim`, `tmux`, `npm`
 
 ## Build & Publish
 
@@ -23,13 +27,3 @@ docker run --rm -it ghcr.io/cailmdaley/containers:latest bash
 - Agentic/dev tools (Debian): ripgrep, fd-find→`fd`, fzf, bat→`bat`, jq, yq, delta, httpie, aria2, sqlite3, hyperfine, btop, duf, procps, htop, less, unzip/zip, rsync, openssh-client, tldr.
 
 All tools are included by default to empower automated agents and interactive workflows.
-
-## HPC via Apptainer (optional)
-
-```bash
-# pull from GHCR (recommended)
-apptainer pull cosmology-env.sif docker://ghcr.io/cailmdaley/containers:latest
-apptainer exec cosmology-env.sif bash
-```
-
-Or publish to a registry (e.g. GHCR) and pull with `apptainer pull docker://<registry>/<image>:<tag>`.
