@@ -52,7 +52,6 @@ RUN set -eux; \
       source-extractor \
       weightwatcher \
       vim \
-      neovim \
       xterm \
       libgsl-dev \
       npm \
@@ -89,6 +88,13 @@ RUN set -eux; \
     # cleanup \
     apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
 
+# Install modern Neovim (stable) from upstream release
+RUN set -eux; \
+    curl -fsSL -o /tmp/nvim.tar.gz https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz; \
+    tar -C /usr/local -xzf /tmp/nvim.tar.gz; \
+    ln -sf /usr/local/nvim-linux64/bin/nvim /usr/local/bin/nvim; \
+    rm -f /tmp/nvim.tar.gz
+
 # Neovim system-wide default config (NvChad) for Docker/Apptainer
 RUN set -eux; \
     mkdir -p /etc/xdg/nvim; \
@@ -109,12 +115,12 @@ ENV EDITOR=nvim \
 
 # Prefer nvim for vim/vi/editor via update-alternatives
 RUN set -eux; \
-    update-alternatives --install /usr/bin/editor editor /usr/bin/nvim 110; \
-    update-alternatives --set editor /usr/bin/nvim; \
-    update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 110; \
-    update-alternatives --set vi /usr/bin/nvim; \
-    update-alternatives --install /usr/bin/vim vim /usr/bin/nvim 110; \
-    update-alternatives --set vim /usr/bin/nvim
+    update-alternatives --install /usr/bin/editor editor /usr/local/bin/nvim 110; \
+    update-alternatives --set editor /usr/local/bin/nvim; \
+    update-alternatives --install /usr/bin/vi vi /usr/local/bin/nvim 110; \
+    update-alternatives --set vi /usr/local/bin/nvim; \
+    update-alternatives --install /usr/bin/vim vim /usr/local/bin/nvim 110; \
+    update-alternatives --set vim /usr/local/bin/nvim
 
 # Quarto (for scientific writing) — prerelease channel, AMD64
 RUN set -eux; \
