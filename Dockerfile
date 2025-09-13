@@ -52,6 +52,7 @@ RUN set -eux; \
       source-extractor \
       weightwatcher \
       vim \
+      neovim \
       xterm \
       libgsl-dev \
       npm \
@@ -87,6 +88,37 @@ RUN set -eux; \
     if command -v fdfind  >/dev/null 2>&1; then ln -sf "$(command -v fdfind)"  /usr/local/bin/fd;  fi && \
     # cleanup \
     apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
+
+# Neovim system-wide default config (NvChad) for Docker/Apptainer
+RUN set -eux; \
+    mkdir -p /etc/xdg/nvim; \
+    git clone --depth 1 https://github.com/NvChad/starter /tmp/nvchad; \
+    rsync -a /tmp/nvchad/ /etc/xdg/nvim/; \
+    rm -rf /tmp/nvchad/.git /tmp/nvchad; \
+    printf '%s\n' \
+      'let g:using_system_nvchad = 1' \
+      'lua << EOF' \
+      "dofile('/etc/xdg/nvim/init.lua')" \
+      'EOF' \
+      > /etc/xdg/nvim/sysinit.vim
+
+# Smoke test: ensure system NvChad sysinit is picked up
+RUN set -eux; \
+    out="$(nvim --headless '+echo exists(\"g:using_system_nvchad\") | q' 2>/dev/null | tr -d '\r')"; \
+    [ "$out" = "1" ]
+
+# Prefer Neovim as default editor inside the container
+ENV EDITOR=nvim \
+    VISUAL=nvim
+
+# Prefer nvim for vim/vi/editor via update-alternatives
+RUN set -eux; \
+    update-alternatives --install /usr/bin/editor editor /usr/bin/nvim 110; \
+    update-alternatives --set editor /usr/bin/nvim; \
+    update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 110; \
+    update-alternatives --set vi /usr/bin/nvim; \
+    update-alternatives --install /usr/bin/vim vim /usr/bin/nvim 110; \
+    update-alternatives --set vim /usr/bin/nvim
 
 # Quarto (for scientific writing) — prerelease channel, AMD64
 RUN set -eux; \
