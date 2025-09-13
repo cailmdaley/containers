@@ -23,4 +23,10 @@ PY
 echo "[smoke] snakemake --version"
 snakemake --version
 
+echo "[smoke] pandoc --version"
+pandoc --version | head -n 1
+
+echo "[smoke] quarto --version"
+quarto --version
+
 echo "Smoke tests passed"

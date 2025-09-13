@@ -1,10 +1,16 @@
 # Cosmological Data Analysis Container
 
-Container for observational cosmology and data analysis. Key tool themes:
-- CMB: `lenspyx`, `ducc0`, `healpy`, `pymaster`, `camb`
-- Cosmic shear: `treecorr`, `pyccl`, `pymaster`, `camb`, `clmm`, `healsparse`, `ngmix`, `shear_psf_leakage`
-- Writing tools: `jupyter`, `jupyterlab`, `jupytext`, `ipython`, `pandoc`, `quarto`
-- Agent tools: `ripgrep`, `fd` (via `fd-find`), `fzf`, `bat`, `jq`, `yq`, `delta`, `httpie`, `aria2`, `sqlite3`, `hyperfine`, `btop`, `duf`, `procps`, `htop`, `less`, `unzip`, `zip`, `rsync`, `openssh-client`, `tldr`, `vim`, `tmux`, `npm`
+Key tool themes:
+- Astronomy: `astropy`, `regions`, `reproject`, `skyproj`, `sip_tpv`, `sf_tools`, `lenspack`
+- Observational cosmology:
+  - CMB: `lenspyx`, `ducc0`, `healpy`, `pymaster`, `camb`
+  - Cosmic shear: `treecorr`, `pyccl`, `pymaster`, `camb`, `clmm`, `healsparse`, `ngmix`, `shear_psf_leakage`
+- Data analysis: `numpy`, `numba`, `numexpr`, `scipy`, `pandas`, `h5py`, `pyarrow`, `joblib`, `seaborn`, `statsmodels`, `uncertainties`, `tqdm`
+- Interactive: `ipython`, `jupyter`, `jupyterlab`, `jupytext`, `PyQt5`, `pyqtgraph`
+- Writing tools: `pandoc`, `quarto`
+- Agent tools: `ripgrep`, `fd` (via `fd-find`), `fzf`, `bat`, `jq`, `yq`, `delta`, `httpie`, `aria2`, `sqlite3`, `hyperfine`, `btop`, `duf`, `procps`, `htop`, `less`, `unzip`, `zip`, `rsync`, `openssh-client`, `tldr`
+- Utilities: `vim`, `tmux`, `npm`, `xterm`
+- Low-level / compiler tools: `CMake`, `FFTW`, `CFITSIO`, `OpenMPI`, `pkg-config`, `gcc/g++/gfortran`
 
 ## Build & Publish
 
