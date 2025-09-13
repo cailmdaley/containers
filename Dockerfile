@@ -108,20 +108,6 @@ RUN set -eux; \
       'EOF' \
       > /etc/xdg/nvim/sysinit.vim
 
-
-# Prefer Neovim as default editor inside the container
-ENV EDITOR=nvim \
-    VISUAL=nvim
-
-# Prefer nvim for vim/vi/editor via update-alternatives
-RUN set -eux; \
-    update-alternatives --install /usr/bin/editor editor /usr/local/bin/nvim 110; \
-    update-alternatives --set editor /usr/local/bin/nvim; \
-    update-alternatives --install /usr/bin/vi vi /usr/local/bin/nvim 110; \
-    update-alternatives --set vi /usr/local/bin/nvim; \
-    update-alternatives --install /usr/bin/vim vim /usr/local/bin/nvim 110; \
-    update-alternatives --set vim /usr/local/bin/nvim
-
 # Quarto (for scientific writing) — prerelease channel, AMD64
 RUN set -eux; \
     ARCH=amd64; \
