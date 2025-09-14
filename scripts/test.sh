@@ -30,6 +30,6 @@ echo "[smoke] quarto --version"
 quarto --version
 
 # echo "[smoke] nvim sysinit (NvChad)"
-# nvim --headless '+lua assert(vim.g.using_system_nvchad == 1, "NvChad sysinit not detected")' +qa
+nvim --headless '+lua assert(vim.g.using_system_nvchad == 1, "NvChad sysinit not detected")' +qa
 
 echo "Smoke tests passed"

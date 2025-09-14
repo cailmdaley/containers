@@ -92,7 +92,7 @@ RUN set -eux; \
 RUN set -eux; \
     curl -fsSL -o /tmp/nvim.tar.gz https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.tar.gz; \
     tar -C /usr/local -xzf /tmp/nvim.tar.gz; \
-    ln -sf /usr/local/nvim-linux64/bin/nvim /usr/local/bin/nvim; \
+    ln -sf /usr/local/nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim; \
     rm -f /tmp/nvim.tar.gz
 
 # Neovim system-wide default config (NvChad) for Docker/Apptainer
