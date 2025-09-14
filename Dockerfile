@@ -22,6 +22,7 @@ RUN set -eux; \
       autoconf \
       automake \
       build-essential \
+      chafa \
       cmake \
       curl \
       wget \
