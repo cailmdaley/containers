@@ -88,25 +88,12 @@ RUN set -eux; \
     # cleanup \
     apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
 
-# Install modern Neovim (stable) from upstream release
+# Install modern Neovim
 RUN set -eux; \
     curl -fsSL -o /tmp/nvim.tar.gz https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.tar.gz; \
     tar -C /usr/local -xzf /tmp/nvim.tar.gz; \
     ln -sf /usr/local/nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim; \
     rm -f /tmp/nvim.tar.gz
-
-# Neovim system-wide default config (NvChad) for Docker/Apptainer
-RUN set -eux; \
-    mkdir -p /etc/xdg/nvim; \
-    git clone --depth 1 https://github.com/NvChad/starter /tmp/nvchad; \
-    rsync -a /tmp/nvchad/ /etc/xdg/nvim/; \
-    rm -rf /tmp/nvchad/.git /tmp/nvchad; \
-    printf '%s\n' \
-      'let g:using_system_nvchad = 1' \
-      'lua << EOF' \
-      "dofile('/etc/xdg/nvim/init.lua')" \
-      'EOF' \
-      > /etc/xdg/nvim/sysinit.vim
 
 # Quarto (for scientific writing) — prerelease channel, AMD64
 RUN set -eux; \
