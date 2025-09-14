@@ -156,6 +156,7 @@ RUN python -m pip install --no-cache-dir --upgrade pip setuptools wheel && \
       uncertainties \
       vos \
       snakemake \
+      snakemake-executor-plugin-slurm \
       lenspyx \
       ducc0 \
       # Git-based dependencies
