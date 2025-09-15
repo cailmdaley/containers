@@ -103,6 +103,16 @@ RUN set -eux; \
     rm -f /tmp/chafa.tar.gz; \
     ln -sf /usr/local/chafa-1.16.2-1-x86_64-linux-gnu/chafa /usr/local/bin/chafa
 
+# Zellij terminal multiplexer
+COPY zellij-config.kdl /etc/zellij/config.kdl
+RUN set -eux; \
+    mkdir -p /tmp/zellij && \
+    cd /tmp/zellij && \
+    wget https://github.com/zellij-org/zellij/releases/download/v0.43.1/zellij-no-web-x86_64-unknown-linux-musl.tar.gz && \
+    tar -xzf zellij-no-web-x86_64-unknown-linux-musl.tar.gz && \
+    cp zellij /usr/local/bin/ && \
+    rm -rf /tmp/zellij
+
 # Quarto (for scientific writing) — prerelease channel, AMD64
 RUN set -eux; \
     ARCH=amd64; \
