@@ -32,4 +32,7 @@ quarto --version
 echo "[smoke] chafa --version"
 chafa --version | head -n 1
 
+echo "[smoke] zellij --version"
+zellij --version
+
 echo "Smoke tests passed"

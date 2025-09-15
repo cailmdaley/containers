@@ -1,0 +1,14 @@
+keybinds {
+    normal {
+        bind "Alt f" { LaunchPlugin "zellij:strider"; }
+    }
+}
+
+plugins {
+    filepicker {
+        path "filepicker"
+        close_on_selection true
+    }
+}
+
+theme "tokyo-night-light"
