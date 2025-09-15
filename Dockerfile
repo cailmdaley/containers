@@ -96,6 +96,13 @@ RUN set -eux; \
     ln -sf /usr/local/nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim; \
     rm -f /tmp/nvim.tar.gz
 
+# Chafa (static Linux x86_64 build)
+RUN set -eux; \
+    curl -fsSL -o /tmp/chafa.tar.gz https://hpjansson.org/chafa/releases/static/chafa-1.16.2-1-x86_64-linux-gnu.tar.gz; \
+    tar -C /usr/local -xzf /tmp/chafa.tar.gz; \
+    rm -f /tmp/chafa.tar.gz; \
+    ln -sf /usr/local/chafa-1.16.2-1-x86_64-linux-gnu/chafa /usr/local/bin/chafa
+
 # Quarto (for scientific writing) — prerelease channel, AMD64
 RUN set -eux; \
     ARCH=amd64; \

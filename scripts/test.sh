@@ -29,4 +29,7 @@ pandoc --version | head -n 1
 echo "[smoke] quarto --version"
 quarto --version
 
+echo "[smoke] chafa --version"
+chafa --version | head -n 1
+
 echo "Smoke tests passed"
