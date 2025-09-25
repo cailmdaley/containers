@@ -32,6 +32,9 @@ quarto --version
 echo "[smoke] chafa --version"
 chafa --version | head -n 1
 
+echo "[smoke] polspice availability"
+command -v polspice
+
 echo "[smoke] zellij --version"
 zellij --version
 

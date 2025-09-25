@@ -11,7 +11,7 @@ docker run --rm -it ghcr.io/cailmdaley/containers:latest bash
 
 Tools included:
 - Astronomy: `astropy`, `regions`, `reproject`, `skyproj`, `sip_tpv`, `sf_tools`, `lenspack`
-- Observational cosmology: `healpy`, `healsparse`, `pymaster`, `pyccl`
+- Observational cosmology: `healpy`, `healsparse`, `pymaster`, `pyccl`, `polspice`
   - CMB: `lenspyx`, `ducc0`, `camb`
   - Cosmic shear: `treecorr`, `pyccl`, `clmm`, `ngmix`, `shear_psf_leakage`
 - Data analysis: `numpy`, `numba`, `scipy`, `pandas`, `h5py`, `pyarrow`, `joblib`, `seaborn`, `statsmodels`, `uncertainties`, `tqdm`

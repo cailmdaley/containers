@@ -36,12 +36,14 @@ RUN set -eux; \
       libblas-dev \
       liblapack-dev \
       libcfitsio-dev \
+      libhealpix-cxx-dev \
       libfftw3-bin \
       libfftw3-dev \
       libgl1-mesa-glx \
       libtool \
       libtool-bin \
       libtool-doc \
+      libsharp-dev \
       locales \
       locate \
       make \
@@ -102,6 +104,24 @@ RUN set -eux; \
     tar -C /usr/local -xzf /tmp/chafa.tar.gz; \
     rm -f /tmp/chafa.tar.gz; \
     ln -sf /usr/local/chafa-1.16.2-1-x86_64-linux-gnu/chafa /usr/local/bin/chafa
+
+# PolSpice (spherical power spectrum estimator)
+RUN set -eux; \
+    tmpdir="$(mktemp -d)"; \
+    cd "$tmpdir"; \
+    curl -fsSLO https://www2.iap.fr/users/hivon/software/PolSpice/ftp/PolSpice_v03-08-03.tar.gz; \
+    tar -xzf PolSpice_v03-08-03.tar.gz; \
+    cd PolSpice_v03-08-03; \
+    mkdir build; \
+    cd build; \
+    cmake .. -DCMAKE_BUILD_TYPE=Release -DHEALPIX=/usr; \
+    cmake --build . --parallel "$(nproc)"; \
+    install_dir=/opt/polspice; \
+    mkdir -p "$install_dir"; \
+    cp -r ../bin/. "$install_dir"/; \
+    install -m 0755 "$install_dir/spice" /usr/local/bin/spice; \
+    ln -sf spice /usr/local/bin/polspice; \
+    rm -rf "$tmpdir"
 
 # Zellij terminal multiplexer
 COPY zellij-config.kdl /etc/zellij/config.kdl
