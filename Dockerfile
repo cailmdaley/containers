@@ -36,6 +36,7 @@ RUN set -eux; \
       libblas-dev \
       liblapack-dev \
       libcfitsio-dev \
+      libhealpix-dev \
       libhealpix-cxx-dev \
       libfftw3-bin \
       libfftw3-dev \
@@ -114,7 +115,14 @@ RUN set -eux; \
     cd PolSpice_v03-08-03; \
     mkdir build; \
     cd build; \
-    cmake .. -DCMAKE_BUILD_TYPE=Release -DHEALPIX=/usr; \
+    healpix_prefix="$(pkg-config --variable=prefix healpix)"; \
+    healpix_lib="$(pkg-config --variable=libdir healpix)"; \
+    healpix_mod="$(pkg-config --variable=moddir healpix)"; \
+    cmake .. -DCMAKE_BUILD_TYPE=Release \
+      -DHEALPIX="$healpix_prefix" \
+      -DHEALPIX_LIB="$healpix_lib" \
+      -DHEALPIX_INCLUDE="$healpix_mod" \
+      -DSHARPDIR="$healpix_lib"; \
     cmake --build . --parallel "$(nproc)"; \
     install_dir=/opt/polspice; \
     mkdir -p "$install_dir"; \
