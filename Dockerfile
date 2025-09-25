@@ -118,10 +118,23 @@ RUN set -eux; \
     healpix_prefix="$(pkg-config --variable=prefix healpix)"; \
     healpix_lib="$(pkg-config --variable=libdir healpix)"; \
     healpix_mod="$(pkg-config --variable=moddir healpix)"; \
+    healpix_inc_flags="$(pkg-config --cflags-only-I healpix)"; \
+    healpix_include="$(printf '%s\n' "$healpix_inc_flags" | tr ' ' '\n' | sed -n 's/^-I//p' | paste -sd';' - | sed 's/;$//')"; \
+    if [ -z "$healpix_include" ]; then \
+      healpix_include="$(find "$healpix_lib" -maxdepth 3 -name healpix_types.mod -print -quit | xargs -r dirname)"; \
+    fi; \
+    if [ -z "$healpix_include" ]; then \
+      healpix_include="$(find /usr -name healpix_types.mod -print -quit | xargs -r dirname)"; \
+    fi; \
+    if [ -n "$healpix_include" ] && [ -n "$healpix_mod" ]; then \
+      healpix_include="$healpix_include;$healpix_mod"; \
+    elif [ -z "$healpix_include" ] && [ -n "$healpix_mod" ]; then \
+      healpix_include="$healpix_mod"; \
+    fi; \
     cmake .. -DCMAKE_BUILD_TYPE=Release \
       -DHEALPIX="$healpix_prefix" \
       -DHEALPIX_LIB="$healpix_lib" \
-      -DHEALPIX_INCLUDE="$healpix_mod" \
+      -DHEALPIX_INCLUDE="$healpix_include" \
       -DSHARPDIR="$healpix_lib"; \
     cmake --build . --parallel "$(nproc)"; \
     install_dir=/opt/polspice; \
