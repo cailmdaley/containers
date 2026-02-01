@@ -4,7 +4,7 @@ This file provides guidance to agents when working with code in this repository.
 
 ## Repository Overview
 
-This repository contains a Docker-based cosmological data analysis environment designed for cosmic shear, CMB lensing, and cross-correlation analyses. The container provides a comprehensive scientific computing stack without conda, built on Python 3.11 with specialized astronomy and cosmology libraries.
+This repository contains a Docker-based cosmological data analysis environment designed for cosmic shear, CMB lensing, and cross-correlation analyses. The container provides a comprehensive scientific computing stack without conda, built on Python 3.12 with specialized astronomy and cosmology libraries.
 
 ## Development Workflow
 
@@ -23,7 +23,7 @@ The workflow is straightforward:
 ## Architecture and Environment
 
 ### Container Design
-- **Base**: Python 3.11 on Debian Bookworm
+- **Base**: Python 3.12 on Debian Bookworm
 - **Build Strategy**: Single-stage image consolidating ShapePipe dependencies with agent-friendly CLI tools
 - **Entry Point**: Bash shell with working directory at `/workspace`
 
