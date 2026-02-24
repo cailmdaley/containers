@@ -219,7 +219,7 @@ RUN python -m pip install --no-cache-dir --upgrade pip setuptools wheel && \
       ducc0 \
       # Git-based dependencies
       git+https://github.com/Nicholaswogan/NumbaQuadpack.git \
-      git+https://github.com/cailmdaley/cosmo-numba@fix/numpy2-fft-compat \
+      git+https://github.com/aguinot/cosmo-numba \
       git+https://github.com/benabed/getdist.git@upper_triangle_whisker \
       git+https://github.com/CosmoStat/shear_psf_leakage.git@develop \
       git+https://github.com/aguinot/ngmix@stable_version \
